@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.rodrigoelias.testwise.R
+import data.Pokemon
 import kotlinx.android.synthetic.main.list_item.view.*
 
 /**
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.list_item.view.*
 
 class PokeListAdapter : RecyclerView.Adapter<PokeListAdapter.ViewHolder>(){
 
-    var dataSource : List<PokemonListViewModel.Pokemon> = emptyList()
+    var dataSource : List<Pokemon> = emptyList()
         set(value){
             field = value
             notifyDataSetChanged()
