@@ -35,7 +35,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.3.0'
 
-    /** component arch */
+    //// arch components
+    // (Lifecycle)
     implementation "android.arch.lifecycle:runtime:1.1.0"
     implementation "android.arch.lifecycle:extensions:1.1.0"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.0"

@@ -1,18 +1,19 @@
 package data
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.Database
+import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Query
+import android.arch.persistence.room.Insert
+import android.arch.persistence.room.OnConflictStrategy
 
-/**
- * Created by rodrigoelias on 28/02/2018.
- */
 @Database(entities = arrayOf(Pokemon::class), version = 1)
 abstract class PokeDatabase : RoomDatabase() {
     abstract fun pokeDao(): PokeDao
 }
 
 @Dao
-interface PokeDao{
-
+interface PokeDao {
     @Query("SELECT * FROM pokemon")
     fun getPokemons(): List<Pokemon>
 

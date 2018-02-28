@@ -6,16 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.rodrigoelias.testwise.R
 import data.Pokemon
-import kotlinx.android.synthetic.main.list_item.view.*
+import kotlinx.android.synthetic.main.list_item.view.tv_item_title as cardTitleTextView
 
-/**
- * Created by rodrigoelias on 28/02/2018.
- */
+class PokeListAdapter : RecyclerView.Adapter<PokeListAdapter.ViewHolder>() {
 
-class PokeListAdapter : RecyclerView.Adapter<PokeListAdapter.ViewHolder>(){
-
-    var dataSource : List<Pokemon> = emptyList()
-        set(value){
+    var dataSource: List<Pokemon> = emptyList()
+        set(value) {
             field = value
             notifyDataSetChanged()
         }
@@ -23,7 +19,7 @@ class PokeListAdapter : RecyclerView.Adapter<PokeListAdapter.ViewHolder>(){
     override fun getItemCount() = dataSource.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.tv_item_title.text = getItem(position).name
+        holder.itemView.cardTitleTextView.text = getItem(position).name
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,7 +31,7 @@ class PokeListAdapter : RecyclerView.Adapter<PokeListAdapter.ViewHolder>(){
         return ViewHolder(view)
     }
 
-    class ViewHolder(view : View) : RecyclerView.ViewHolder(view)
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     private fun getItem(position: Int) = dataSource[position]
 
