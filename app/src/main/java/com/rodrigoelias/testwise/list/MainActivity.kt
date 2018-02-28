@@ -1,5 +1,7 @@
-package com.rodrigoelias.testwise
+package com.rodrigoelias.testwise.list
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -7,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.rodrigoelias.testwise.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.list_item.view.*
 import retrofit2.Call
@@ -17,35 +20,39 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
 class MainActivity : AppCompatActivity(), Callback<PokeAPIResponse> {
+
+    lateinit var pokemons: PokemonListViewModel
+
     override fun onFailure(call: Call<PokeAPIResponse>?, t: Throwable) {
         t.printStackTrace()
     }
 
-    override fun onResponse(call: Call<PokeAPIResponse>?, response: Response<PokeAPIResponse>?) {
-        if(response!!.isSuccessful) {
+    override fun onResponse(call: Call<PokeAPIResponse>, response: Response<PokeAPIResponse>) {
+        if (response.isSuccessful) {
             var s = response.body()
 
-            if(s != null) {
-                s.pokemon.forEach{println("current score: ${it.name}")}
-            }
+            s?.let{ s.pokemon.forEach { println("current score: ${it.name}") }}
         } else {
             System.out.println(response.errorBody());
         }
     }
 
-    private val action = View.OnClickListener(){it.tv_item_title.text = "Clicked"}
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val items = listOf(Pokemon("Bulbasaur","1"), Pokemon("Ivysaur", "2"))
+        pokemons = ViewModelProviders.of(this).get(PokemonListViewModel::class.java)
+        var myAdapter = PokeListAdapter()
 
-        with(content_list_recyclerview){
+        with(content_list_recyclerview) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this.context)
-            adapter = MyAdapter(items, action)
+            adapter = myAdapter
         }
+
+        pokemons.list.observe(this, Observer {
+                it?.let { myAdapter.dataSource = it }
+        })
 
         val retrofit = Retrofit.Builder()
                 .baseUrl("https://pokeapi.co//api/v1/pokedex/")
@@ -55,7 +62,7 @@ class MainActivity : AppCompatActivity(), Callback<PokeAPIResponse> {
         val service = retrofit.create(CreditScoreService::class.java)
 
         val s = service.getScore()
-        s.enqueue(this)
+        //s.enqueue(this)
     }
 }
 
@@ -67,17 +74,19 @@ interface CreditScoreService{
 data class Pokemon(val name: String, val resourceUri: String)
 data class PokeAPIResponse(val pokemon: List<Pokemon>)
 
-class MyAdapter(private val items: List<Pokemon>,
-                private val onClickHandler: View.OnClickListener) :
-        RecyclerView.Adapter<MyAdapter.ViewHolder>(){
+class PokeListAdapter : RecyclerView.Adapter<PokeListAdapter.ViewHolder>(){
 
-    class ViewHolder(view : View) : RecyclerView.ViewHolder(view)
+    var dataSource : List<Pokemon> = emptyList()
+    set(value){
+        field = value
+        notifyDataSetChanged()
+    }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = dataSource.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.tv_item_title.text = items[position].name
-        holder.itemView.setOnClickListener(onClickHandler)
+        println("onBindViewHolder")
+        holder.itemView.tv_item_title.text = getItem(position).name
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -86,6 +95,12 @@ class MyAdapter(private val items: List<Pokemon>,
                         parent,
                         false)
 
+        println("onCreateViewHolder")
         return ViewHolder(view)
     }
+
+    class ViewHolder(view : View) : RecyclerView.ViewHolder(view)
+
+    private fun getItem(position: Int) = dataSource[position]
+
 }
