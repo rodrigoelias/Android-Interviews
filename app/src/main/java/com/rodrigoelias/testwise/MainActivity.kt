@@ -1,10 +1,11 @@
+package com.rodrigoelias.testwise
+
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.rodrigoelias.testwise.R
 import kotlinx.android.synthetic.main.activity_main.content_list_recyclerview as recyclerView
 import kotlinx.android.synthetic.main.activity_main.tv_error_message as errorMessageTextView
 import kotlinx.android.synthetic.main.activity_main.progressBar
