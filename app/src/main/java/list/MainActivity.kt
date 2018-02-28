@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        pokemons = ViewModelProviders.of(this).get(PokemonListViewModel::class.java)
         var myAdapter = PokeListAdapter()
 
         with(content_list_recyclerview) {
@@ -24,6 +23,9 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this.context)
             adapter = myAdapter
         }
+
+        pokemons = ViewModelProviders.of(this)
+                .get(PokemonListViewModel::class.java)
 
         pokemons.list.observe(this, Observer {
                 it?.let { myAdapter.dataSource = it }
