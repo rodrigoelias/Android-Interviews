@@ -1,4 +1,4 @@
-package com.rodrigoelias.testwise.list
+package list
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
@@ -14,7 +14,9 @@ class PokemonListViewModel : ViewModel(){
         get() =  pokemonList
 
     init {
-        pokemonList.postValue(listOf(Pokemon("Bulbasaur", "1"), Pokemon("Ivysaur", "2")))
+        //TODO : Remove after UnitTest
+        pokemonList.postValue(listOf(Pokemon("Bulbasaur"), Pokemon("Ivysaur")))
     }
 
+    data class Pokemon(val name: String)
 }
