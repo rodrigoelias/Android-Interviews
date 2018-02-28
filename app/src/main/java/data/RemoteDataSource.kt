@@ -30,22 +30,12 @@ class RemoteDataSource{
                 listener.onFail()
             }
 
-            fun mapFromResourceUriToId(resourceUri:String):Int{
-                val match = resourceUri.split('/')
-
-                if(match.size > 2) {
-                    return match[match.size - 2].toInt()
-                }
-                return 0
-            }
-
             override fun onResponse(call: Call<PokeAPIResponse>, response: Response<PokeAPIResponse>) {
                 if (response.isSuccessful) {
                     var s = response.body()
 
-                    s?.let{listener.onSuccess(it.pokemon.map {
-                        Pokemon(mapFromResourceUriToId(it.resourceUri), it.name) }
-                            .filter { it.Id < 1000 }
+                    s?.let{listener.onSuccess(it.pokemon.map { it.mapToPokemon()}
+                            .filter { it.Id < 1000}
                             .sortedBy { it.Id })}
                 } else {
                     System.out.println(response.errorBody());
@@ -53,10 +43,22 @@ class RemoteDataSource{
             }
         })
     }
-}
+
+    private interface PokemonService{
+        @GET("1/")
+        fun getThemAll(): Call<PokeAPIResponse>
+    }
+
+    private fun RemoteNode.mapToPokemon() = Pokemon(mapFromResourceUriToId(resourceUri), name)
+
+    private fun mapFromResourceUriToId(resourceUri:String):Int{
+        val match = resourceUri.split('/')
+
+        if(match.size > 2) {
+            return match[match.size - 2].toInt()
+        }
+        return 0
+    }
 
 
-private interface PokemonService{
-    @GET("1/")
-    fun getThemAll(): Call<PokeAPIResponse>
 }

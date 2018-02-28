@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this.context)
             adapter = myAdapter
-            setItemViewCacheSize(20)
+            setItemViewCacheSize(25)
         }
 
         pokemons = ViewModelProviders.of(this)
