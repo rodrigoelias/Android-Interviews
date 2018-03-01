@@ -1,12 +1,9 @@
 package com.rodrigoelias.testwise.list
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.rodrigoelias.testwise.data.Pokemon
 import com.rodrigoelias.testwise.data.PokemonRepository
-import com.rodrigoelias.testwise.data.RepositoryListener
-import android.arch.lifecycle.Transformations
 import com.rodrigoelias.testwise.data.PokemonRepository.Status
 
 
