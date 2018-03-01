@@ -19,7 +19,7 @@ class PokeListAdapter : RecyclerView.Adapter<PokeListAdapter.ViewHolder>() {
     override fun getItemCount() = dataSource.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.cardTitleTextView.text = getItem(position).name
+        holder.itemView.cardTitleTextView.text = getItem(position).toString()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

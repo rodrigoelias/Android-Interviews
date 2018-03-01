@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">TestWise</string>
-    <string name="main_headline">WiseDex</string>
+    <string name="app_name">WiseDex</string>
     <string name="network_error_message">An error has occurred.</string>
 </resources>

@@ -31,8 +31,8 @@ class PokemonListViewModel(repository: PokemonRepository = PokemonRepository()) 
     }
 
     private fun handleResponseFromRepository(newValues: List<Pokemon>) {
-        pokemonList.postValue(newValues)
         repositoryRequestStatus.postValue(Status.SUCCESS)
+        pokemonList.postValue(newValues)
     }
 
     enum class Status { STARTED, FAILED, SUCCESS, NONE }

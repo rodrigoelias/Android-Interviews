@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import kotlinx.android.synthetic.main.activity_main.content_list_recyclerview as recyclerView
+import kotlinx.android.synthetic.main.activity_main.rv_pokemon_list as recyclerView
 import kotlinx.android.synthetic.main.activity_main.tv_error_message as errorMessageTextView
 import kotlinx.android.synthetic.main.activity_main.progressBar
 import com.rodrigoelias.testwise.list.PokeListAdapter
@@ -54,6 +54,12 @@ class MainActivity : AppCompatActivity() {
                     recyclerView.visibility = View.VISIBLE
                     progressBar.visibility = View.GONE
                 }
+                else -> {
+                    recyclerView.visibility = View.GONE
+                    progressBar.visibility = View.GONE
+                    errorMessageTextView.visibility = View.GONE
+                }
+
             }
         })
     }

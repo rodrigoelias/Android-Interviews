@@ -30,4 +30,9 @@ data class Pokemon(@PrimaryKey @ColumnInfo(name = "id") val Id: Int,
             return arrayOfNulls(size)
         }
     }
+
+    // Format: [ "Name (#Number)" ]
+    override fun toString(): String {
+        return "${name.capitalize()} (#${Id})"
+    }
 }
