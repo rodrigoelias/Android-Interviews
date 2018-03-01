@@ -1,4 +1,4 @@
-package com.rodrigoelias.testwise
+package com.rodrigoelias.score
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

@@ -2,23 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:plainpie="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_pokemon_list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_error_message"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_error_message"
@@ -37,6 +24,18 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Error Message!" />
 
+    <az.plainpie.PieView
+        android:id="@+id/pieView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        plainpie:inner_pie_padding="30"
+        plainpie:inner_text_visibility="false"
+        plainpie:percentage="1" />
+
     <ProgressBar
         android:visibility="gone"
         android:id="@+id/progressBar"
@@ -48,5 +47,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+    <TextView
+        android:id="@+id/tv_score_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/network_error_message"
+        android:text="@string/network_error_message"
+        android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
+        android:visibility="gone"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/pieView"
+        app:layout_constraintEnd_toEndOf="@+id/pieView"
+        app:layout_constraintStart_toStartOf="@+id/pieView"
+        app:layout_constraintTop_toTopOf="@+id/pieView"
+        app:layout_constraintVertical_bias="0.40"
+        tools:text="Error Message!" />
 
 </android.support.constraint.ConstraintLayout>
