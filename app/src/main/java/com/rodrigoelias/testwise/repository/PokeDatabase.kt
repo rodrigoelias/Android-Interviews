@@ -10,6 +10,7 @@ abstract class PokeDatabase : RoomDatabase() {
 //                PokeDatabase::class.java, "poke-database").build()
 //        val userDao=appDatabase.pokeDao()
     }
+
     abstract fun pokeDao(): PokeDao
 }
 

@@ -1,5 +1,6 @@
 package com.rodrigoelias.testwise.repository
 
+import android.os.Looper
 import android.util.Log
 import com.rodrigoelias.testwise.data.PokeAPIResponse
 import retrofit2.Call
@@ -14,6 +15,7 @@ class RemoteDataSource {
     companion object {
         const val TAG = "RemoteDataSource"
     }
+
     private var service: PokemonService
 
     init {
@@ -25,7 +27,9 @@ class RemoteDataSource {
         service = retrofit.create(PokemonService::class.java)
     }
 
-    fun fetchFromRemote(listener: RepositoryListener) {
+    fun fetchFromRemote(listener: NetworkCallHandler) {
+        Log.i("fetchFromRemote?", (Looper.myLooper() == Looper.getMainLooper())?.let{it.toString()})
+
         service.getThemAll().enqueue(object : Callback<PokeAPIResponse> {
             override fun onFailure(call: Call<PokeAPIResponse>?, t: Throwable?) {
                 Log.d(TAG, "onFailure", t)
@@ -36,13 +40,15 @@ class RemoteDataSource {
                 if (response.isSuccessful) {
                     val body = response.body()
 
-                    if(body == null){
+                    if (body == null) {
                         return
                     }
 
+                    Log.i("onResponse", (Looper.myLooper() == Looper.getMainLooper())?.let{it.toString()})
+
                     listener.onSuccess(body)
                 } else {
-                    System.out.println(response.errorBody())
+                    Log.d(TAG, response.errorBody()?.toString())
                 }
             }
         })
@@ -51,5 +57,8 @@ class RemoteDataSource {
     private interface PokemonService {
         @GET("v1/pokedex/1")
         fun getThemAll(): Call<PokeAPIResponse>
+
+        @GET("v2/pokemon/{pokemonName}")
+        fun getByName(pokemonName: String): Call<PokeAPIResponse>
     }
 }

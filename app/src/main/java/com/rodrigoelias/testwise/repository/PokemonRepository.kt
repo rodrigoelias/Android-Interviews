@@ -6,11 +6,17 @@ import com.rodrigoelias.testwise.data.PokeAPIResponse
 import com.rodrigoelias.testwise.data.Pokemon
 import com.rodrigoelias.testwise.data.RemoteNode
 
-
-// Abstracts the Model from the ViewModel.
+// Abstracts the Model from the ViewModel
 // The Repository is responsible for the abstraction between the API EndPoint and the data to be show
 // by the ViewModel
-class PokemonRepository(private val remoteSource: RemoteDataSource = RemoteDataSource()) : RepositoryListener {
+interface Repository {
+    fun getEmAll(): LiveData<List<Pokemon>>
+    fun getStatus(): LiveData<PokemonRepository.Status>
+}
+
+class PokemonRepository(private val remoteSource: RemoteDataSource = RemoteDataSource()) :
+        NetworkCallHandler, Repository {
+
     private val pokemonList: MutableLiveData<List<Pokemon>> = MutableLiveData()
     private val dataRequestStatus: MutableLiveData<Status> = MutableLiveData()
 
@@ -29,13 +35,13 @@ class PokemonRepository(private val remoteSource: RemoteDataSource = RemoteDataS
         pokemonList.postValue(pokemons)
     }
 
-    fun getEmAll() : LiveData<List<Pokemon>> {
+    override fun getEmAll(): LiveData<List<Pokemon>> {
         dataRequestStatus.postValue(Status.STARTED)
         remoteSource.fetchFromRemote(this)
         return pokemonList
     }
 
-    fun getStatus() : LiveData<Status>{
+    override fun getStatus(): LiveData<Status> {
         return dataRequestStatus
     }
 
@@ -46,6 +52,7 @@ class PokemonRepository(private val remoteSource: RemoteDataSource = RemoteDataS
                 .filter { it.Id < 1000 }
                 .sortedBy { it.Id }
     }
+
     // Map RemoteNode entity to Pokemon (local entity)
     private fun RemoteNode.toPokemon() = Pokemon(mapFromResourceUriToId(resourceUri), name)
 
@@ -58,12 +65,11 @@ class PokemonRepository(private val remoteSource: RemoteDataSource = RemoteDataS
             else -> 0
         }
     }
-
 }
 
-// RepositoryListener is the callback to be executed by the PokemonRepository after the request
+// NetworkCallHandler is the callback to be executed by the PokemonRepository after the request
 // is completed
-interface RepositoryListener {
+interface NetworkCallHandler {
     fun onSuccess(apiResponse: PokeAPIResponse)
     fun onFail()
 }
