@@ -1,7 +1,10 @@
-package com.rodrigoelias.testwise.data
+package com.rodrigoelias.testwise.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import com.rodrigoelias.testwise.data.PokeAPIResponse
+import com.rodrigoelias.testwise.data.Pokemon
+import com.rodrigoelias.testwise.data.RemoteNode
 
 
 // Abstracts the Model from the ViewModel.
@@ -11,8 +14,10 @@ class PokemonRepository(private val remoteSource: RemoteDataSource = RemoteDataS
     private val pokemonList: MutableLiveData<List<Pokemon>> = MutableLiveData()
     private val dataRequestStatus: MutableLiveData<Status> = MutableLiveData()
 
+    //private val localSource :  = RemoteDataSource()
+
     override fun onFail() {
-        dataRequestStatus.postValue(Status.FAILED)
+        dataRequestStatus.value = Status.FAILED
     }
 
     override fun onSuccess(apiResponse: PokeAPIResponse) {
@@ -20,13 +25,12 @@ class PokemonRepository(private val remoteSource: RemoteDataSource = RemoteDataS
         // those are duplicates and specials and we don't want them :(
         val pokemons = mapAndFilter(apiResponse)
 
-        dataRequestStatus.postValue(Status.SUCCESS)
-        pokemonList.postValue(pokemons)
+        dataRequestStatus.value = Status.SUCCESS
+        pokemonList.value = pokemons
     }
-    //private val localSource :  = RemoteDataSource()
 
     fun getEmAll() : LiveData<List<Pokemon>> {
-        dataRequestStatus.postValue(Status.STARTED)
+        dataRequestStatus.value = Status.STARTED
         remoteSource.fetchFromRemote(this)
         return pokemonList
     }
@@ -60,6 +64,6 @@ class PokemonRepository(private val remoteSource: RemoteDataSource = RemoteDataS
 // RepositoryListener is the callback to be executed by the PokemonRepository after the request
 // is completed
 interface RepositoryListener {
-    fun onSuccess(data: PokeAPIResponse)
+    fun onSuccess(apiResponse: PokeAPIResponse)
     fun onFail()
 }

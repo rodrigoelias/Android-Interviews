@@ -1,17 +1,7 @@
 package com.rodrigoelias.testwise
 
-import com.rodrigoelias.testwise.data.Pokemon
-import com.rodrigoelias.testwise.data.PokemonRepository
-import com.rodrigoelias.testwise.data.RepositoryListener
-import com.rodrigoelias.testwise.list.PokemonListViewModel
-import org.junit.Test
-
-import org.junit.Before
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.ArgumentMatchers
-import org.mockito.Mockito
-import org.mockito.Mockito.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).

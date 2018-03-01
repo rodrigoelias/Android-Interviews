@@ -1,6 +1,7 @@
-package com.rodrigoelias.testwise.data
+package com.rodrigoelias.testwise.repository
 
 import android.arch.persistence.room.*
+import com.rodrigoelias.testwise.data.Pokemon
 
 @Database(entities = [(Pokemon::class)], version = 1)
 abstract class PokeDatabase : RoomDatabase() {

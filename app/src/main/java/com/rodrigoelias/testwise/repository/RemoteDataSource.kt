@@ -1,6 +1,7 @@
-package com.rodrigoelias.testwise.data
+package com.rodrigoelias.testwise.repository
 
 import android.util.Log
+import com.rodrigoelias.testwise.data.PokeAPIResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

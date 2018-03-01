@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.rodrigoelias.testwise.data.PokemonRepository
+import com.rodrigoelias.testwise.repository.PokemonRepository
 import kotlinx.android.synthetic.main.activity_main.rv_pokemon_list as recyclerView
 import kotlinx.android.synthetic.main.activity_main.tv_error_message as errorMessageTextView
 import kotlinx.android.synthetic.main.activity_main.progressBar
