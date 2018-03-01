@@ -17,7 +17,7 @@ class RemoteDataSource {
 
     init {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://pokeapi.co//api/v1/pokedex/")
+                .baseUrl("https://pokeapi.co//api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -39,6 +39,8 @@ class RemoteDataSource {
                         return
                     }
 
+                    // remove the Pokemons which have Id > 1000
+                    // those are duplicates and specials and we don't want them :(
                     listener.onSuccess(body.pokemon.map { it.toPokemon() }
                             .filter { it.Id < 1000 }
                             .sortedBy { it.Id })
@@ -50,7 +52,7 @@ class RemoteDataSource {
     }
 
     private interface PokemonService {
-        @GET("1/")
+        @GET("v1/pokedex/1")
         fun getThemAll(): Call<PokeAPIResponse>
     }
 

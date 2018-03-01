@@ -6,10 +6,13 @@ import android.arch.lifecycle.ViewModel
 import com.rodrigoelias.testwise.data.Pokemon
 import com.rodrigoelias.testwise.data.PokemonRepository
 import com.rodrigoelias.testwise.data.RepositoryListener
+import android.arch.lifecycle.Transformations
+import com.rodrigoelias.testwise.data.PokemonRepository.Status
 
-class PokemonListViewModel(repository: PokemonRepository = PokemonRepository()) : RepositoryListener, ViewModel() {
-    private val pokemonList: MutableLiveData<List<Pokemon>> = MutableLiveData()
-    private val repositoryRequestStatus: MutableLiveData<Status> = MutableLiveData()
+
+class PokemonListViewModel(repository: PokemonRepository = PokemonRepository()) : ViewModel() {
+    private val pokemonList: LiveData<List<Pokemon>> = repository.getEmAll()
+    private val repositoryRequestStatus: LiveData<Status> = repository.getStatus()
 
     val status: LiveData<Status>
         get() = repositoryRequestStatus
@@ -17,23 +20,4 @@ class PokemonListViewModel(repository: PokemonRepository = PokemonRepository()) 
     val list: LiveData<List<Pokemon>>
         get() = pokemonList
 
-    init {
-        repositoryRequestStatus.postValue(Status.STARTED)
-        repository.getEmAll(this)
-    }
-
-    override fun onFail() {
-        repositoryRequestStatus.postValue(Status.FAILED)
-    }
-
-    override fun onSuccess(data: List<Pokemon>) {
-        handleResponseFromRepository(data.map { it })
-    }
-
-    private fun handleResponseFromRepository(newValues: List<Pokemon>) {
-        repositoryRequestStatus.postValue(Status.SUCCESS)
-        pokemonList.postValue(newValues)
-    }
-
-    enum class Status { STARTED, FAILED, SUCCESS, NONE }
 }

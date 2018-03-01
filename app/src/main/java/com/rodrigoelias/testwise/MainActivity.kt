@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.rodrigoelias.testwise.data.PokemonRepository
 import kotlinx.android.synthetic.main.activity_main.rv_pokemon_list as recyclerView
 import kotlinx.android.synthetic.main.activity_main.tv_error_message as errorMessageTextView
 import kotlinx.android.synthetic.main.activity_main.progressBar
@@ -41,16 +42,16 @@ class MainActivity : AppCompatActivity() {
 
         pokemonVm.status.observe(this, Observer { newStatus ->
             when (newStatus) {
-                PokemonListViewModel.Status.STARTED -> {
+                PokemonRepository.Status.STARTED -> {
                     recyclerView.visibility = View.GONE
                     errorMessageTextView.visibility = View.GONE
                     progressBar.visibility = View.VISIBLE
                 }
-                PokemonListViewModel.Status.FAILED -> {
+                PokemonRepository.Status.FAILED -> {
                     recyclerView.visibility = View.VISIBLE
                     progressBar.visibility = View.GONE
                 }
-                PokemonListViewModel.Status.SUCCESS -> {
+                PokemonRepository.Status.SUCCESS -> {
                     recyclerView.visibility = View.VISIBLE
                     progressBar.visibility = View.GONE
                 }

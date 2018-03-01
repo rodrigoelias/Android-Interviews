@@ -1,14 +1,14 @@
 package com.rodrigoelias.testwise.data
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
+import android.arch.persistence.room.*
 
 @Database(entities = [(Pokemon::class)], version = 1)
 abstract class PokeDatabase : RoomDatabase() {
+    companion object {
+//        val appDatabase = Room.databaseBuilder(,
+//                PokeDatabase::class.java, "poke-database").build()
+//        val userDao=appDatabase.pokeDao()
+    }
     abstract fun pokeDao(): PokeDao
 }
 
