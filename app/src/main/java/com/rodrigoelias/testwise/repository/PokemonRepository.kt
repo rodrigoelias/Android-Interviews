@@ -17,7 +17,7 @@ class PokemonRepository(private val remoteSource: RemoteDataSource = RemoteDataS
     //private val localSource :  = RemoteDataSource()
 
     override fun onFail() {
-        dataRequestStatus.value = Status.FAILED
+        dataRequestStatus.postValue(Status.FAILED)
     }
 
     override fun onSuccess(apiResponse: PokeAPIResponse) {
@@ -25,12 +25,12 @@ class PokemonRepository(private val remoteSource: RemoteDataSource = RemoteDataS
         // those are duplicates and specials and we don't want them :(
         val pokemons = mapAndFilter(apiResponse)
 
-        dataRequestStatus.value = Status.SUCCESS
-        pokemonList.value = pokemons
+        dataRequestStatus.postValue(Status.SUCCESS)
+        pokemonList.postValue(pokemons)
     }
 
     fun getEmAll() : LiveData<List<Pokemon>> {
-        dataRequestStatus.value = Status.STARTED
+        dataRequestStatus.postValue(Status.STARTED)
         remoteSource.fetchFromRemote(this)
         return pokemonList
     }
