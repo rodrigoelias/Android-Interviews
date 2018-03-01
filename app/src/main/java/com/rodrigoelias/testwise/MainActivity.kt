@@ -9,53 +9,50 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_main.content_list_recyclerview as recyclerView
 import kotlinx.android.synthetic.main.activity_main.tv_error_message as errorMessageTextView
 import kotlinx.android.synthetic.main.activity_main.progressBar
-import list.PokeListAdapter
-import list.PokemonListViewModel
+import com.rodrigoelias.testwise.list.PokeListAdapter
+import com.rodrigoelias.testwise.list.PokemonListViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var pokemons: PokemonListViewModel
+    private lateinit var pokemonVm: PokemonListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var myAdapter = PokeListAdapter()
+        val adapter = PokeListAdapter()
 
         with(recyclerView) {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this.context)
-            adapter = myAdapter
-            setItemViewCacheSize(25)
+            layoutManager = LinearLayoutManager(context)
+            this.adapter = adapter
         }
 
-        subscribe(myAdapter)
+        subscribe(adapter)
     }
 
     private fun subscribe(myAdapter: PokeListAdapter) {
-        pokemons = ViewModelProviders.of(this)
+        pokemonVm = ViewModelProviders.of(this)
                 .get(PokemonListViewModel::class.java)
 
-        pokemons.list.observe(this, Observer {
-            it?.let { myAdapter.dataSource = it }
+        pokemonVm.list.observe(this, Observer { data ->
+            myAdapter.dataSource = data!!
         })
 
-        pokemons.status.observe(this, Observer {
-            it?.let {
-                when (it) {
-                    PokemonListViewModel.Status.STARTED -> {
-                        recyclerView.visibility = View.GONE
-                        errorMessageTextView.visibility = View.GONE
-                        progressBar.visibility = View.VISIBLE
-                    }
-                    PokemonListViewModel.Status.FAILED -> {
-                        recyclerView.visibility = View.VISIBLE
-                        progressBar.visibility = View.GONE
-                    }
-                    PokemonListViewModel.Status.SUCCESS -> {
-                        recyclerView.visibility = View.VISIBLE
-                        progressBar.visibility = View.GONE
-                    }
+        pokemonVm.status.observe(this, Observer { newStatus ->
+            when (newStatus) {
+                PokemonListViewModel.Status.STARTED -> {
+                    recyclerView.visibility = View.GONE
+                    errorMessageTextView.visibility = View.GONE
+                    progressBar.visibility = View.VISIBLE
+                }
+                PokemonListViewModel.Status.FAILED -> {
+                    recyclerView.visibility = View.VISIBLE
+                    progressBar.visibility = View.GONE
+                }
+                PokemonListViewModel.Status.SUCCESS -> {
+                    recyclerView.visibility = View.VISIBLE
+                    progressBar.visibility = View.GONE
                 }
             }
         })

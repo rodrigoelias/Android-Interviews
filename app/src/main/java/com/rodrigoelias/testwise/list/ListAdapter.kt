@@ -1,11 +1,11 @@
-package list
+package com.rodrigoelias.testwise.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.rodrigoelias.testwise.R
-import data.Pokemon
+import com.rodrigoelias.testwise.data.Pokemon
 import kotlinx.android.synthetic.main.list_item.view.tv_item_title as cardTitleTextView
 
 class PokeListAdapter : RecyclerView.Adapter<PokeListAdapter.ViewHolder>() {

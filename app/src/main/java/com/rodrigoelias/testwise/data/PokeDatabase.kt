@@ -1,4 +1,4 @@
-package data
+package com.rodrigoelias.testwise.data
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
@@ -7,7 +7,7 @@ import android.arch.persistence.room.Query
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 
-@Database(entities = arrayOf(Pokemon::class), version = 1)
+@Database(entities = [(Pokemon::class)], version = 1)
 abstract class PokeDatabase : RoomDatabase() {
     abstract fun pokeDao(): PokeDao
 }

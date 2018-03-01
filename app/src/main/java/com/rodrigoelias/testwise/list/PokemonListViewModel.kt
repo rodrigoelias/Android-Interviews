@@ -1,11 +1,11 @@
-package list
+package com.rodrigoelias.testwise.list
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import data.Pokemon
-import data.PokemonRepository
-import data.RepositoryListener
+import com.rodrigoelias.testwise.data.Pokemon
+import com.rodrigoelias.testwise.data.PokemonRepository
+import com.rodrigoelias.testwise.data.RepositoryListener
 
 class PokemonListViewModel(repository: PokemonRepository = PokemonRepository()) : RepositoryListener, ViewModel() {
     private val pokemonList: MutableLiveData<List<Pokemon>> = MutableLiveData()
@@ -26,7 +26,7 @@ class PokemonListViewModel(repository: PokemonRepository = PokemonRepository()) 
         repositoryRequestStatus.postValue(Status.FAILED)
     }
 
-    override fun onSuccess(data: List<data.Pokemon>) {
+    override fun onSuccess(data: List<Pokemon>) {
         handleResponseFromRepository(data.map { it })
     }
 
