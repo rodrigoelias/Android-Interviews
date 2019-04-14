@@ -6,7 +6,6 @@ import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
 
-// Local entity (to be persisted into the SQLlite database throught Room)
 @Entity(tableName = "pokemon")
 data class Pokemon(@PrimaryKey @ColumnInfo(name = "id") val Id: Int,
                    @ColumnInfo(name = "name") val name: String) : Parcelable {

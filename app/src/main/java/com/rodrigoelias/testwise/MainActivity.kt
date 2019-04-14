@@ -41,27 +41,31 @@ class MainActivity : AppCompatActivity() {
         })
 
         pokemonVm.status.observe(this, Observer { newStatus ->
-            when (newStatus) {
-                PokemonRepository.Status.STARTED -> {
-                    recyclerView.visibility = View.GONE
-                    errorMessageTextView.visibility = View.GONE
-                    progressBar.visibility = View.VISIBLE
-                }
-                PokemonRepository.Status.FAILED -> {
-                    recyclerView.visibility = View.VISIBLE
-                    progressBar.visibility = View.GONE
-                }
-                PokemonRepository.Status.SUCCESS -> {
-                    recyclerView.visibility = View.VISIBLE
-                    progressBar.visibility = View.GONE
-                }
-                else -> {
-                    recyclerView.visibility = View.GONE
-                    progressBar.visibility = View.GONE
-                    errorMessageTextView.visibility = View.GONE
-                }
-
-            }
+            setState(newStatus)
         })
+    }
+
+    private fun setState(newStatus: PokemonRepository.Status?) {
+        when (newStatus) {
+            PokemonRepository.Status.STARTED -> {
+                recyclerView.visibility = View.GONE
+                errorMessageTextView.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+            }
+            PokemonRepository.Status.FAILED -> {
+                errorMessageTextView.visibility = View.VISIBLE
+                recyclerView.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            }
+            PokemonRepository.Status.SUCCESS -> {
+                recyclerView.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            }
+            else -> {
+                recyclerView.visibility = View.GONE
+                progressBar.visibility = View.GONE
+                errorMessageTextView.visibility = View.GONE
+            }
+        }
     }
 }
